@@ -6,7 +6,7 @@ export default function Footer({ contact }: { contact: Contact | null }) {
   if (!contact) return null;
 
   return (
-    <footer id="contact" className="bg-fg px-4 py-8 text-bg md:px-5 md:py-10">
+    <footer id="contact" className="bg-fg px-1 py-8 text-bg md:px-1.5 md:py-10">
       <div className="mx-auto max-w-6xl">
         <Reveal as="h2" className="text-sm uppercase tracking-[0.2em] text-bg/60">
           Contact

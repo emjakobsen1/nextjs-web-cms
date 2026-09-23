@@ -8,7 +8,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
   if (!projects.length) return null;
 
   return (
-    <section id="projects" className="px-1.5 py-10 md:px-2.5 md:py-16">
+    <section id="projects" className="px-1 py-10 md:px-1.5 md:py-16">
       <div className="mx-auto max-w-6xl">
         <Reveal as="h2" className="text-sm uppercase tracking-[0.2em] text-muted">
           Music
