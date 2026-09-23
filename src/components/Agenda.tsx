@@ -5,10 +5,10 @@ export default function Agenda({ agenda }: { agenda: AgendaItem[] }) {
   if (!agenda.length) return null;
 
   return (
-    <section id="agenda" className="border-t border-line px-4 py-16 md:px-6 md:py-24">
+    <section id="agenda" className="border-t border-line px-4 py-10 md:px-5 md:py-16">
       <div className="mx-auto max-w-6xl">
         <Reveal as="h2" className="text-sm uppercase tracking-[0.2em] text-muted">
-          Shows
+          Agenda
         </Reveal>
 
         <ul className="mt-10 divide-y divide-line md:mt-14">
@@ -17,18 +17,16 @@ export default function Agenda({ agenda }: { agenda: AgendaItem[] }) {
               as="li"
               key={event._id}
               delay={(i % 4) * 60}
-              className="flex flex-col gap-2 py-5 md:flex-row md:items-center md:gap-6 md:py-6"
+              className="flex flex-col gap-1 py-5 md:flex-row md:items-center md:gap-6 md:py-6"
             >
-              <span className="text-lg font-light italic md:w-40">
+              <span className="text-base font-light italic md:w-24">
                 {new Date(event.date).toLocaleDateString("en-GB", {
                   day: "2-digit",
                   month: "short",
                 })}
               </span>
-              <span className="flex-1 text-lg uppercase tracking-tight md:text-xl">
-                {event.title}
-                <span className="text-muted"> &mdash; {event.location}</span>
-              </span>
+              <span className="text-lg uppercase tracking-tight md:w-56">{event.title}</span>
+              <span className="text-muted md:flex-1">{event.location}</span>
               {event.link ? (
                 <a
                   href={event.link}

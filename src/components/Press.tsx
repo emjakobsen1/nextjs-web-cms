@@ -10,7 +10,7 @@ export default function Press({ press }: { press: PressData | null }) {
   if (!hasQuotes && !pressKitUrl) return null;
 
   return (
-    <section id="press" className="border-t border-line px-4 py-16 md:px-6 md:py-24">
+    <section id="press" className="border-t border-line px-4 py-10 md:px-5 md:py-16">
       <div className="mx-auto max-w-6xl">
         <Reveal as="h2" className="text-sm uppercase tracking-[0.2em] text-muted">
           Press

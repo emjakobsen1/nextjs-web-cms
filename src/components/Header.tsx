@@ -8,8 +8,8 @@ import type { SocialLink } from "@/sanity/queries";
 const NAV_LINKS = [
   { label: "Music", href: "#projects" },
   { label: "News", href: "#news" },
-  { label: "Shows", href: "#agenda" },
-  { label: "Bio", href: "#biography" },
+  { label: "Agenda", href: "#agenda" },
+  { label: "Biography", href: "#biography" },
   { label: "Press", href: "#press" },
   { label: "Contact", href: "#contact" },
 ];
@@ -78,7 +78,7 @@ export default function Header({ socialLinks = [] }: { socialLinks?: SocialLink[
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-4 md:px-4">
         <Link
           href="/"
           onClick={() => setOpen(false)}
