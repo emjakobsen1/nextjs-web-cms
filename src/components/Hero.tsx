@@ -1,12 +1,14 @@
 import Image from "next/image";
 import { urlFor } from "@/sanity/image";
 import type { Hero as HeroData } from "@/sanity/queries";
+import FlushLeftLine from "./FlushLeftLine";
 import Reveal from "./Reveal";
 
 export default function Hero({ hero }: { hero: HeroData | null }) {
   if (!hero) return null;
 
   const imageUrl = hero.image ? urlFor(hero.image)?.width(1920).height(1080).url() : null;
+  const lines = hero.heading.split(" ");
 
   return (
     <section className="relative flex min-h-screen items-end overflow-hidden bg-fg">
@@ -34,9 +36,14 @@ export default function Hero({ hero }: { hero: HeroData | null }) {
 
       <div className="relative w-full">
         <Reveal as="h1" duration={700}>
-          <span className="block translate-y-[0.1em] text-[clamp(4rem,18vw,15rem)] font-light uppercase leading-[0.8] tracking-tight text-white">
-            {hero.heading}
-          </span>
+          {lines.map((line, i) => (
+            <FlushLeftLine
+              key={line}
+              text={line}
+              className="block text-[clamp(4rem,18vw,15rem)] font-light uppercase leading-[0.8] tracking-tight text-white"
+              style={i === lines.length - 1 ? { transform: "translateY(0.1em)" } : undefined}
+            />
+          ))}
         </Reveal>
       </div>
     </section>

@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Raleway } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 
-const raleway = Raleway({
-  variable: "--font-raleway",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${raleway.variable} h-full antialiased`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${archivo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-fg">
         {children}
       </body>

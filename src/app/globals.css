@@ -14,8 +14,8 @@
   --color-muted: var(--muted);
   --color-surface: var(--surface);
   --color-line: var(--line);
-  --font-display: var(--font-raleway);
-  --font-sans: var(--font-raleway);
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-archivo);
 }
 
 * {
