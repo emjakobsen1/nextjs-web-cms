@@ -22,10 +22,10 @@ export default function OpengraphImage() {
             display: "flex",
             fontSize: 26,
             fontWeight: 400,
-            color: "#000000",
+            color: "#FFFFFF",
             letterSpacing: 4,
             textTransform: "uppercase",
-            background: "#C8BFE7",
+            background: "#0A0A0A",
             padding: "10px 20px",
             alignSelf: "flex-start",
           }}

@@ -1,43 +1,45 @@
-import Image from "next/image";
+import type { Contact } from "@/sanity/queries";
+import Reveal from "./Reveal";
 
-const SOCIALS = ["Bandcamp", "Soundcloud", "Spotify", "Instagram"];
+export default function Footer({ contact }: { contact: Contact | null }) {
+  if (!contact) return null;
 
-export default function Footer() {
   return (
-    <footer id="contact" className="bg-lavender px-4 py-6 text-black md:px-6 md:py-10">
+    <footer id="contact" className="bg-fg px-4 py-16 text-bg md:px-6 md:py-20">
       <div className="mx-auto max-w-6xl">
-        <span className="inline-block border border-black/15 bg-white px-3 py-1 text-xs uppercase tracking-[0.14em] text-black">
-          Send me a message
-        </span>
-        <Image
-          src="/images/contact-removebg-preview.png"
-          alt="Contact"
-          width={215}
-          height={83}
-          className="ink-fat mt-4 h-[2.24rem] w-auto md:h-[3.92rem]"
-        />
-        <a
-          href="mailto:booking@jesperlorup.com"
-          className="mt-4 inline-block text-lg text-black underline decoration-black/30 decoration-2 underline-offset-4 hover:decoration-black"
-        >
-          booking@jesperlorup.com
-        </a>
+        <Reveal as="h2" className="text-sm uppercase tracking-[0.2em] text-bg/60">
+          Contact
+        </Reveal>
+        <Reveal delay={80}>
+          <a
+            href={`mailto:${contact.email}`}
+            className="mt-4 inline-block text-3xl uppercase tracking-tight underline decoration-bg/30 decoration-2 underline-offset-4 hover:decoration-bg md:text-4xl"
+          >
+            {contact.email}
+          </a>
+        </Reveal>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-black/15 pt-8">
-          <ul className="flex flex-wrap gap-1">
-            {SOCIALS.map((social) => (
-              <li key={social}>
-                <a
-                  href="#"
-                  className="inline-block px-3 py-2 text-sm uppercase tracking-[0.1em] text-black transition-colors hover:bg-black hover:text-white"
-                >
-                  {social}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="text-sm text-black/60">
-            &copy; 2026 Jesper L&oslash;rup. All rights reserved.
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-bg/15 pt-8">
+          {contact.socialLinks?.length ? (
+            <ul className="flex flex-wrap gap-1">
+              {contact.socialLinks.map(({ platform, url }) => (
+                <li key={platform}>
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block px-3 py-2 text-sm uppercase tracking-[0.1em] transition-colors hover:bg-bg hover:text-fg"
+                  >
+                    {platform}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span />
+          )}
+          <p className="text-sm text-bg/60">
+            {`© ${new Date().getFullYear()} Jesper Lørup. All rights reserved.`}
           </p>
         </div>
       </div>

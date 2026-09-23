@@ -1,21 +1,28 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Releases from "@/components/Releases";
-import Concerts from "@/components/Concerts";
-import About from "@/components/About";
+import Projects from "@/components/Projects";
+import News from "@/components/News";
+import Agenda from "@/components/Agenda";
+import Biography from "@/components/Biography";
+import Press from "@/components/Press";
 import Footer from "@/components/Footer";
+import { getHomeData } from "@/sanity/queries";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { hero, projects, news, agenda, biography, press, contact } = await getHomeData();
+
   return (
     <>
-      <Header />
+      <Header socialLinks={contact?.socialLinks} />
       <main>
-        <Hero />
-        <Releases />
-        <Concerts />
-        <About />
+        <Hero hero={hero} />
+        <Projects projects={projects} />
+        <News news={news} />
+        <Agenda agenda={agenda} />
+        <Biography biography={biography} />
+        <Press press={press} />
       </main>
-      <Footer />
+      <Footer contact={contact} />
     </>
   );
 }

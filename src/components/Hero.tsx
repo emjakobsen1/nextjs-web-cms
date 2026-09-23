@@ -1,38 +1,63 @@
 import Image from "next/image";
+import Link from "next/link";
+import { urlFor } from "@/sanity/image";
+import type { Hero as HeroData } from "@/sanity/queries";
+import Reveal from "./Reveal";
 
-export default function Hero() {
+export default function Hero({ hero }: { hero: HeroData | null }) {
+  if (!hero) return null;
+
+  const ctaHref = hero.linkedRelease
+    ? `/releases/${hero.linkedRelease.slug.current}`
+    : "#projects";
+  const imageUrl = hero.image ? urlFor(hero.image)?.width(1920).height(1080).url() : null;
+
   return (
-    <section className="relative flex min-h-screen items-end overflow-hidden">
-      <Image
-        src="/images/jesper-loerup-hero2.png"
-        alt="Jesper Lørup playing drums live, with double bass in the background"
-        fill
-        priority
-        sizes="100vw"
-        className="photo object-cover object-[top_2.25rem]"
-      />
+    <section className="relative flex min-h-screen items-end overflow-hidden bg-fg">
+      {hero.mediaType === "video" && hero.video?.asset?.url ? (
+        <video
+          src={hero.video.asset.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="photo absolute inset-0 h-full w-full object-cover"
+        />
+      ) : imageUrl ? (
+        <Image
+          src={imageUrl}
+          alt={hero.heading}
+          fill
+          priority
+          sizes="100vw"
+          className="photo object-cover"
+        />
+      ) : null}
+
       <div className="hero-fade absolute inset-0" />
 
-      <div className="relative w-full px-4 pb-[6vh] md:px-6 md:pb-[4vh]">
+      <div className="relative w-full px-4 pb-[8vh] md:px-6 md:pb-[6vh]">
         <div className="mx-auto max-w-6xl">
-          <h1 className="scale-y-110 whitespace-nowrap text-[clamp(0.8rem,3.8vw,3rem)] font-thin uppercase leading-[0.92] tracking-tight text-white origin-bottom-left">
-            Jesper L&oslash;rup // Drummer &amp; Composer
-          </h1>
+          <Reveal as="h1" duration={700}>
+            <span className="block text-[clamp(1.6rem,6vw,3.75rem)] font-light uppercase leading-[1.05] tracking-tight text-white">
+              {hero.heading}
+            </span>
+          </Reveal>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#releases"
-              className="bg-white px-7 py-3.5 text-base uppercase tracking-[0.08em] text-black transition-colors hover:bg-lavender"
+          <Reveal delay={150} duration={700} className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href={ctaHref}
+              className="bg-white px-7 py-3.5 text-sm uppercase tracking-[0.1em] text-black transition-colors hover:bg-white/80"
             >
-              Listen
-            </a>
+              {hero.linkedRelease ? "Listen" : "Explore"}
+            </Link>
             <a
-              href="#concerts"
-              className="bg-cream px-7 py-3.5 text-base uppercase tracking-[0.08em] text-black transition-colors hover:bg-lavender"
+              href="#agenda"
+              className="border border-white/40 px-7 py-3.5 text-sm uppercase tracking-[0.1em] text-white transition-colors hover:bg-white/10"
             >
-              Concerts
+              Shows
             </a>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
