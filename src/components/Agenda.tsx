@@ -6,7 +6,7 @@ export default function Agenda({ agenda }: { agenda: AgendaItem[] }) {
 
   return (
     <section id="agenda" className="px-1 py-6 md:px-1.5 md:py-10">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[1800px]">
         <Reveal as="h2" className="text-sm uppercase tracking-[0.2em] text-muted">
           Agenda
         </Reveal>

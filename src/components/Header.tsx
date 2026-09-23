@@ -77,7 +77,7 @@ export default function Header() {
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-1 py-4">
+      <div className="mx-auto flex max-w-[1800px] items-center justify-between px-1 py-4">
         <Link
           href="/"
           onClick={() => setOpen(false)}
