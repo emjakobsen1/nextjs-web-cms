@@ -6,16 +6,9 @@ export default function Footer({ contact }: { contact: Contact | null }) {
   if (!contact) return null;
 
   return (
-    <footer id="contact" className="bg-fg px-1 py-8 text-bg md:px-1.5 md:py-10">
+    <footer id="contact" className="bg-fg px-6 py-8 text-bg md:px-12 md:py-10">
       <div className="mx-auto max-w-[1800px]">
-        <Reveal as="h2" className="text-sm uppercase tracking-[0.2em] text-bg/60">
-          Contact
-        </Reveal>
-
-        <Reveal
-          delay={80}
-          className="mt-4 flex flex-wrap items-center justify-between gap-6"
-        >
+        <Reveal className="flex flex-wrap items-center justify-between gap-6">
           <a
             href={`mailto:${contact.email}`}
             className="text-2xl uppercase tracking-tight underline decoration-bg/30 decoration-2 underline-offset-4 hover:decoration-bg md:text-3xl"
@@ -32,9 +25,9 @@ export default function Footer({ contact }: { contact: Contact | null }) {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={platform}
-                    className="flex h-12 w-12 items-center justify-center border border-bg/20 transition-colors hover:bg-bg hover:text-fg"
+                    className="flex h-14 w-14 items-center justify-center border border-bg/20 transition-colors hover:bg-bg hover:text-fg"
                   >
-                    <SocialIcon platform={platform} className="h-5 w-5" />
+                    <SocialIcon platform={platform} className="h-6 w-6" />
                   </a>
                 </li>
               ))}

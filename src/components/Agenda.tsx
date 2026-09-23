@@ -11,10 +11,10 @@ export default function Agenda({ agenda }: { agenda: AgendaItem[] }) {
           Agenda
         </Reveal>
 
-        <ul className="mt-10 divide-y divide-line md:mt-14">
+        <ul className="mt-10 divide-y divide-line px-2 md:mt-14 md:px-3">
           {agenda.map((event, i) => (
             <Reveal as="li" key={event._id} delay={(i % 4) * 60}>
-              <div className="group relative -mx-3 flex flex-col gap-1 px-3 py-5 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:bg-surface hover:shadow-[0_10px_30px_rgba(0,0,0,0.1)] md:-mx-4 md:flex-row md:items-center md:gap-6 md:px-4 md:py-6">
+              <div className="group relative -mx-2 flex flex-col gap-1 px-2 py-5 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:bg-surface hover:shadow-[0_10px_30px_rgba(0,0,0,0.1)] md:-mx-3 md:flex-row md:items-center md:gap-6 md:px-3 md:py-6">
                 <span className="text-base font-light italic md:w-24">
                   {new Date(event.date).toLocaleDateString("en-GB", {
                     day: "2-digit",
