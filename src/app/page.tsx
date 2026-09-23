@@ -13,7 +13,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Header socialLinks={contact?.socialLinks} />
+      <Header />
       <main>
         <Hero hero={hero} />
         <Projects projects={projects} />

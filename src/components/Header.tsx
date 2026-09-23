@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import RollText from "./RollText";
-import type { SocialLink } from "@/sanity/queries";
 
 const NAV_LINKS = [
   { label: "Music", href: "#projects" },
@@ -14,7 +13,7 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Header({ socialLinks = [] }: { socialLinks?: SocialLink[] }) {
+export default function Header() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [onDark, setOnDark] = useState(true);
@@ -78,7 +77,7 @@ export default function Header({ socialLinks = [] }: { socialLinks?: SocialLink[
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-4 md:px-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-1.5 py-4">
         <Link
           href="/"
           onClick={() => setOpen(false)}
@@ -87,7 +86,7 @@ export default function Header({ socialLinks = [] }: { socialLinks?: SocialLink[
           Jesper L&oslash;rup
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex md:flex-1 md:justify-center">
+        <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -98,21 +97,6 @@ export default function Header({ socialLinks = [] }: { socialLinks?: SocialLink[
             </a>
           ))}
         </nav>
-
-        <div className="hidden items-center gap-4 md:flex">
-          {socialLinks.map(({ platform, url }) => (
-            <a
-              key={platform}
-              href={url}
-              aria-label={platform}
-              target="_blank"
-              rel="noreferrer"
-              className={`text-xs uppercase tracking-[0.1em] transition-colors duration-300 ${inkClass}`}
-            >
-              {platform}
-            </a>
-          ))}
-        </div>
 
         <button
           type="button"

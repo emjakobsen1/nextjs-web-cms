@@ -54,14 +54,14 @@ body::before {
   filter: grayscale(0.15) contrast(1.05);
 }
 
-/* dark scrim so the title sits legibly over the photo; the image fills the
- * section edge to edge with no fade into the page background */
+/* dark scrim so the centered title sits legibly over the photo; the image
+ * fills the section edge to edge with no fade into the page background */
 .hero-fade {
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.4) 45%,
-    rgba(0, 0, 0, 0) 75%
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
+    rgba(0, 0, 0, 0.55) 100%
   );
 }
 

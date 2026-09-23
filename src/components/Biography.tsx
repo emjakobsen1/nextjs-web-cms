@@ -12,7 +12,7 @@ export default function Biography({ biography }: { biography: BiographyData | nu
     : null;
 
   return (
-    <section id="biography" className="border-t border-line px-4 py-10 md:px-5 md:py-16">
+    <section id="biography" className="px-1.5 py-6 md:px-2 md:py-10">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:items-center md:gap-16">
         <Reveal className="relative aspect-[4/5] w-full bg-surface">
           {imageUrl ? (

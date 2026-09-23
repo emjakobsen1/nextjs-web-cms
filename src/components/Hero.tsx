@@ -9,7 +9,7 @@ export default function Hero({ hero }: { hero: HeroData | null }) {
   const imageUrl = hero.image ? urlFor(hero.image)?.width(1920).height(1080).url() : null;
 
   return (
-    <section className="relative flex min-h-screen items-end overflow-hidden bg-fg">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-fg">
       {hero.mediaType === "video" && hero.video?.asset?.url ? (
         <video
           src={hero.video.asset.url}
@@ -32,7 +32,7 @@ export default function Hero({ hero }: { hero: HeroData | null }) {
 
       <div className="hero-fade absolute inset-0" />
 
-      <div className="relative w-full pb-[8vh] md:pb-[6vh]">
+      <div className="relative w-full px-6 text-center">
         <Reveal as="h1" duration={700}>
           <span className="block text-[clamp(1.6rem,6vw,3.75rem)] font-light uppercase leading-[1.05] tracking-tight text-white">
             {hero.heading}
