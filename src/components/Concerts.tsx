@@ -29,14 +29,14 @@ const CONCERTS = [
 
 export default function Concerts() {
   return (
-    <section id="concerts" className="border-y border-line px-4 py-10 md:px-6 md:py-16">
+    <section id="concerts" className="border-y border-line px-4 py-5 md:px-6 md:py-8">
       <div className="mx-auto max-w-6xl">
         <Image
           src="/images/concerts-removebg-preview.png"
           alt="Concerts"
           width={239}
           height={57}
-          className="ink-fat h-16 w-auto md:h-24"
+          className="ink-fat h-[2.24rem] w-auto md:h-[3.36rem]"
         />
 
         <ul className="mt-8 divide-y divide-line">
@@ -45,10 +45,10 @@ export default function Concerts() {
               key={concert.date + concert.city}
               className="flex flex-col gap-2 py-5 md:flex-row md:items-center md:gap-6 md:py-6"
             >
-              <span className="text-xl font-light italic md:w-28">
+              <span className="text-lg font-light italic md:w-28">
                 {concert.date}
               </span>
-              <span className="flex-1 text-xl uppercase tracking-tight md:text-2xl">
+              <span className="flex-1 text-lg uppercase tracking-tight md:text-xl">
                 {concert.city}
                 <span className="text-muted"> &mdash; {concert.venue}</span>
               </span>

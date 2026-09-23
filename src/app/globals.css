@@ -4,7 +4,7 @@
   --bg: #fffaef;
   --fg: #000000;
   --muted: #4a4a4a;
-  --cream: #eee3af;
+  --cream: #c8bfe7;
   --lavender: #c8bfe7;
   --line: rgba(0, 0, 0, 0.14);
 }
@@ -56,24 +56,14 @@ body::before {
   filter: saturate(1.08) contrast(1.03);
 }
 
-/*
- * The hero photo has a hand-painted cream band along its bottom edge
- * (the same tone as --cream). Instead of fading generically to black,
- * this first blends bg -> that exact cream (matches the paint, so the
- * seam into the next section disappears), fades that cream out into the
- * real photo, then applies a separate dark scrim higher up for text
- * legibility over the actual photograph.
- */
+/* dark scrim so the title sits legibly over the photo; the image fills the
+ * section edge to edge with no fade into the page background */
 .hero-fade {
   background: linear-gradient(
     to top,
-    var(--bg) 0%,
-    var(--cream) 7%,
-    rgba(238, 227, 175, 0) 18%,
-    rgba(0, 0, 0, 0) 45%,
-    rgba(0, 0, 0, 0.55) 62%,
-    rgba(0, 0, 0, 0.82) 80%,
-    rgba(0, 0, 0, 0) 100%
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.55) 35%,
+    rgba(0, 0, 0, 0) 70%
   );
 }
 

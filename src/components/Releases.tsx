@@ -5,9 +5,9 @@ const RELEASES = [
     title: "Nordlys",
     meta: "Trio Album · 2024",
     description:
-      "Recorded live in one take over a single Copenhagen night. Nordlys moves between written heads and long stretches of open, listening improvisation.",
+      "Recorded live in one take over a single Copenhagen night, moving between written heads and long stretches of open, listening improvisation.",
     image:
-      "https://images.unsplash.com/photo-1738235870356-580cf652ada8?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1738235870356-580cf652ada8?q=80&w=1000&auto=format&fit=crop",
     alt: "Close-up of a drum kit in low light",
     chip: "bg-lavender",
   },
@@ -15,9 +15,9 @@ const RELEASES = [
     title: "Modlys",
     meta: "Duo Improvisations · 2025",
     description:
-      "A set of fully improvised duo recordings with double bass, made without rehearsal. Modlys is the sound of two players finding a room's silence together.",
+      "Fully improvised duo recordings with double bass, made without rehearsal — the sound of two players finding a room's silence together.",
     image:
-      "https://plus.unsplash.com/premium_photo-1677446657603-67e209c5bf41?q=80&w=1400&auto=format&fit=crop",
+      "https://plus.unsplash.com/premium_photo-1677446657603-67e209c5bf41?q=80&w=1000&auto=format&fit=crop",
     alt: "A double bass against a dark background",
     chip: "bg-cream",
   },
@@ -25,11 +25,41 @@ const RELEASES = [
     title: "Live at Blå Time",
     meta: "Live Recording · 2026",
     description:
-      "Captured over two late sets at a small Copenhagen room. Loose, unedited, and closer to how the trio actually sounds in a room with an audience.",
+      "Two late sets at a small Copenhagen room, loose and unedited — closer to how the trio actually sounds with an audience in the room.",
     image:
-      "https://images.unsplash.com/photo-1623123776919-e5208e9b0b47?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1623123776919-e5208e9b0b47?q=80&w=1000&auto=format&fit=crop",
     alt: "A golden saxophone resting on a sheet of music",
     chip: "bg-lavender",
+  },
+  {
+    title: "Stille Rum",
+    meta: "Solo Piano · 2023",
+    description:
+      "A quiet, unaccompanied session recorded overnight in an empty hall, built around space, sustain and the sound of the room itself.",
+    image:
+      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1000&auto=format&fit=crop",
+    alt: "Close-up of piano keys",
+    chip: "bg-cream",
+  },
+  {
+    title: "Late Sessions",
+    meta: "Full Band Live Album · 2022",
+    description:
+      "Highlights from a year of late-night club dates, compiled into one set — the band stretching out on familiar heads night after night.",
+    image:
+      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1000&auto=format&fit=crop",
+    alt: "A band performing live on a dark stage",
+    chip: "bg-lavender",
+  },
+  {
+    title: "Enrum",
+    meta: "EP · 2021",
+    description:
+      "Four short studio pieces written for a single afternoon session — sparse arrangements, minimal overdubs, first takes kept throughout.",
+    image:
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1000&auto=format&fit=crop",
+    alt: "A trumpet resting on a stool in a studio",
+    chip: "bg-cream",
   },
 ];
 
@@ -37,14 +67,14 @@ const LISTEN_LINKS = ["Bandcamp", "Spotify"];
 
 export default function Releases() {
   return (
-    <section id="releases" className="px-4 py-10 md:px-6 md:py-16">
+    <section id="releases" className="px-4 py-5 md:px-6 md:py-8">
       <div className="mx-auto max-w-6xl">
         <Image
           src="/images/releases-removebg-preview.png"
           alt="Releases"
           width={299}
           height={81}
-          className="ink-fat h-16 w-auto md:h-24"
+          className="ink-fat h-[2.24rem] w-auto md:h-[3.36rem]"
         />
 
         <div className="mt-8 flex flex-col gap-10 md:mt-10 md:gap-16">
@@ -55,7 +85,7 @@ export default function Releases() {
                 i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
               }`}
             >
-              <div className="relative aspect-[4/5] w-full overflow-hidden md:w-1/2">
+              <div className="relative aspect-square w-full overflow-hidden md:w-1/2">
                 <Image
                   src={release.image}
                   alt={release.alt}
