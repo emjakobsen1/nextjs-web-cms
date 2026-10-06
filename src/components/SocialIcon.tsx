@@ -70,6 +70,14 @@ function SoundcloudIcon({ className }: IconProps) {
   );
 }
 
+function LinktreeIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" className={className}>
+      <path d="M12 3v18M12 9 6 5M12 9l6-4M12 15l-6 4M12 15l6 4" />
+    </svg>
+  );
+}
+
 const ICONS: { [key: string]: (props: IconProps) => ReactElement } = {
   youtube: YouTubeIcon,
   spotify: SpotifyIcon,
@@ -77,6 +85,20 @@ const ICONS: { [key: string]: (props: IconProps) => ReactElement } = {
   instagram: InstagramIcon,
   bandcamp: BandcampIcon,
   soundcloud: SoundcloudIcon,
+  linktree: LinktreeIcon,
+};
+
+// Display names for the "<Icon> Bandcamp" / "<Icon> Spotify" listen-link
+// buttons — keep these in step with the platform list in Studio's
+// socialLink schema.
+export const PLATFORM_LABELS: { [key: string]: string } = {
+  youtube: "YouTube",
+  spotify: "Spotify",
+  facebook: "Facebook",
+  instagram: "Instagram",
+  bandcamp: "Bandcamp",
+  soundcloud: "Soundcloud",
+  linktree: "Linktree",
 };
 
 export default function SocialIcon({ platform, className }: { platform: string; className?: string }) {

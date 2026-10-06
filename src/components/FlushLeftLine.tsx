@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useImperativeHandle, useRef, useState, type CSSProperties, type Ref } from "react";
 
 /**
  * Most glyphs have a little breathing room before their ink actually
@@ -14,12 +14,22 @@ export default function FlushLeftLine({
   text,
   className = "",
   style,
+  fontSize,
+  spanRef,
 }: {
   text: string;
   className?: string;
   style?: CSSProperties;
+  /** Font size in px, when it's computed dynamically rather than via className.
+   *  Tracked separately so the offset re-measures when only the size changes
+   *  (e.g. a resize-triggered refit that keeps the same wrapped line text). */
+  fontSize?: number;
+  /** Exposes the rendered <span>, for callers that need to measure individual
+   *  characters within it (e.g. the hero letter-tail overlay). */
+  spanRef?: Ref<HTMLSpanElement>;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
+  useImperativeHandle(spanRef, () => ref.current as HTMLSpanElement, []);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
@@ -39,10 +49,14 @@ export default function FlushLeftLine({
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [text]);
+  }, [text, fontSize]);
 
   return (
-    <span ref={ref} className={className} style={{ ...style, marginLeft: `${offset}px` }}>
+    <span
+      ref={ref}
+      className={className}
+      style={{ ...style, ...(fontSize ? { fontSize: `${fontSize}px` } : null), marginLeft: `${offset}px` }}
+    >
       {text}
     </span>
   );

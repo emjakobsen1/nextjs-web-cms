@@ -2,24 +2,35 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useAdaptiveInks } from "@/hooks/useAdaptiveInks";
 import RollText from "./RollText";
 
+// Absolute (not bare "#section") so these still work when the header is
+// rendered on a project/release page: they navigate home and land on the
+// anchor, instead of just rewriting the current page's hash in place.
 const NAV_LINKS = [
-  { label: "Music", href: "#projects" },
-  { label: "News", href: "#news" },
-  { label: "Agenda", href: "#agenda" },
-  { label: "Biography", href: "#biography" },
-  { label: "Press", href: "#press" },
-  { label: "Contact", href: "#contact" },
+  { label: "Agenda", href: "/#agenda" },
+  { label: "Music", href: "/#projects" },
+  { label: "Archive", href: "/releases" },
+  { label: "News", href: "/#news" },
+  { label: "Biography", href: "/#biography" },
+  { label: "Press", href: "/#press" },
+  { label: "Contact", href: "/#contact" },
 ];
+
+// Logo + hamburger + one entry per nav link, each tracked independently.
+const LOGO = 0;
+const HAMBURGER = 1;
+const NAV_START = 2;
+const INK_TARGET_COUNT = NAV_START + NAV_LINKS.length;
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [onDark, setOnDark] = useState(true);
   const lastY = useRef(0);
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openRef = useRef(open);
+  const { setRef: setInkRef, inkClasses } = useAdaptiveInks(INK_TARGET_COUNT);
 
   useEffect(() => {
     openRef.current = open;
@@ -42,10 +53,6 @@ export default function Header() {
     };
 
     const onScroll = () => {
-      // The hero section is the only dark, full-viewport block on the page —
-      // once it's scrolled past, everything below is light.
-      setOnDark(window.scrollY < window.innerHeight - 96);
-
       if (openRef.current) return;
       const y = window.scrollY;
       const delta = y - lastY.current;
@@ -69,29 +76,32 @@ export default function Header() {
     };
   }, []);
 
-  const inkClass = onDark ? "text-white" : "text-fg";
-
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-transform duration-500 ease-in-out ${
-        hidden ? "-translate-y-full" : "translate-y-0"
+      className={`fixed inset-x-0 top-0 z-50 transition-transform ease-in-out ${
+        hidden ? "duration-[400ms] -translate-y-full" : "duration-[200ms] translate-y-0"
       }`}
     >
       <div className="mx-auto flex max-w-[1800px] items-center justify-between px-1 py-4">
         <Link
           href="/"
-          onClick={() => setOpen(false)}
-          className={`text-lg uppercase tracking-[0.15em] transition-colors duration-300 ${inkClass}`}
+          ref={setInkRef(LOGO)}
+          onClick={() => {
+            setOpen(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className={`text-lg uppercase tracking-[0.15em] transition-colors duration-300 ${inkClasses[LOGO]}`}
         >
           Jesper L&oslash;rup
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.map((link, i) => (
             <a
               key={link.href}
+              ref={setInkRef(NAV_START + i)}
               href={link.href}
-              className={`group px-3 py-2.5 text-sm uppercase tracking-[0.12em] transition-colors duration-300 ${inkClass}`}
+              className={`group px-3 py-2.5 text-sm uppercase tracking-[0.12em] transition-colors duration-300 ${inkClasses[NAV_START + i]}`}
             >
               <RollText text={link.label} />
             </a>
@@ -100,11 +110,12 @@ export default function Header() {
 
         <button
           type="button"
+          ref={setInkRef(HAMBURGER)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={toggleOpen}
           className={`relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 transition-colors duration-300 md:hidden ${
-            open ? "text-fg" : inkClass
+            open ? "text-accent" : inkClasses[HAMBURGER]
           }`}
         >
           <span
@@ -129,7 +140,7 @@ export default function Header() {
             key={link.href}
             href={link.href}
             onClick={() => setOpen(false)}
-            className="px-4 py-4 text-2xl uppercase tracking-[0.08em] text-fg"
+            className="px-4 py-4 text-2xl uppercase tracking-[0.08em] text-accent"
           >
             {link.label}
           </a>

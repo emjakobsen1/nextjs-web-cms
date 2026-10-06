@@ -1,11 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #ffffff;
-  --fg: #0a0a0a;
-  --muted: #666666;
-  --surface: #f1f1ef;
-  --line: rgba(0, 0, 0, 0.14);
+  /* Experimenting with the k95.it brand blue as the site background in
+     place of white — foreground/surface/line flipped to light-on-blue so
+     text stays readable against it. */
+  --bg: #1500e1;
+  --fg: #ffffff;
+  --muted: #b8b0f5;
+  --surface: #2311e8;
+  --line: rgba(255, 255, 255, 0.16);
+  --accent: #e2b4bd;
 }
 
 @theme inline {
@@ -14,6 +18,7 @@
   --color-muted: var(--muted);
   --color-surface: var(--surface);
   --color-line: var(--line);
+  --color-accent: var(--accent);
   --font-display: var(--font-archivo);
   --font-sans: var(--font-archivo);
 }
@@ -59,8 +64,8 @@ body::before {
 .hero-fade {
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.4) 45%,
+    rgba(0, 0, 0, 0.51) 0%,
+    rgba(0, 0, 0, 0.24) 45%,
     rgba(0, 0, 0, 0) 75%
   );
 }
