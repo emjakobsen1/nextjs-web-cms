@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getAllReleases, getReleaseBySlug } from "@/sanity/queries";
 import ReleaseDetail from "@/components/ReleaseDetail";
 import Header from "@/components/Header";
+import CloseLink from "@/components/CloseLink";
 import { toSafeInternalPath } from "@/lib/safePath";
 
 // See src/app/page.tsx for why this is needed: the Sanity client bypasses
@@ -42,13 +42,7 @@ export default async function ReleasePage({
   return (
     <main className="relative min-h-dvh bg-bg">
       <Header />
-      <Link
-        href={backHref}
-        aria-label="Close"
-        className="fixed top-28 right-6 z-10 text-6xl leading-none font-normal text-fg transition-opacity hover:opacity-70"
-      >
-        &times;
-      </Link>
+      <CloseLink href={backHref} />
       <ReleaseDetail release={release} releases={releases} originHref={backHref} />
     </main>
   );

@@ -1,9 +1,10 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProjectBySlug } from "@/sanity/queries";
+import { getContact, getProjectBySlug } from "@/sanity/queries";
 import ProjectDetail from "@/components/ProjectDetail";
 import Header from "@/components/Header";
+import CloseLink from "@/components/CloseLink";
+import Footer from "@/components/Footer";
 import { toSafeInternalPath } from "@/lib/safePath";
 
 // See src/app/page.tsx for why this is needed: the Sanity client bypasses
@@ -31,7 +32,7 @@ export default async function ProjectPage({
 }) {
   const { slug } = await params;
   const { from } = await searchParams;
-  const project = await getProjectBySlug(slug);
+  const [project, contact] = await Promise.all([getProjectBySlug(slug), getContact()]);
   if (!project) notFound();
 
   const backHref = toSafeInternalPath(from, "/");
@@ -39,14 +40,9 @@ export default async function ProjectPage({
   return (
     <main className="relative min-h-dvh bg-bg">
       <Header />
-      <Link
-        href={backHref}
-        aria-label="Close"
-        className="fixed top-28 right-6 z-10 text-6xl leading-none font-normal text-fg transition-opacity hover:opacity-70"
-      >
-        &times;
-      </Link>
+      <CloseLink href={backHref} />
       <ProjectDetail project={project} />
+      <Footer contact={contact} />
     </main>
   );
 }

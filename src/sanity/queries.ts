@@ -118,7 +118,7 @@ const NEWS_QUERY = `*[_type == "newsPost"] | order(publishedAt desc)[0...6]{
   "imageHeight": image.asset->metadata.dimensions.height
 }`;
 
-const AGENDA_QUERY = `*[_type == "event" && date >= now()] | order(date asc){
+const AGENDA_QUERY = `*[_type == "event"] | order(date asc){
   _id, date, title, location, link
 }`;
 
@@ -149,7 +149,7 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $s
   "releases": *[_type == "release" && references(^._id)] | order(releaseDate desc){
     _id, title, slug, image, length, releaseDate
   },
-  "agenda": *[_type == "event" && date >= now() && references(^._id)] | order(date asc){
+  "agenda": *[_type == "event" && references(^._id)] | order(date asc){
     _id, date, title, location, link
   },
   socialLinks
@@ -179,4 +179,8 @@ export async function getAllReleases() {
 
 export async function getProjectBySlug(slug: string) {
   return client.fetch<ProjectDetail | null>(PROJECT_BY_SLUG_QUERY, { slug });
+}
+
+export async function getContact() {
+  return client.fetch<Contact | null>(CONTACT_QUERY);
 }

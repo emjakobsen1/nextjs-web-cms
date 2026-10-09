@@ -156,8 +156,8 @@ export default function ReleaseDetail({
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-3 border border-accent/60 px-8 py-4 text-base uppercase tracking-[0.15em] transition-colors hover:text-black ${
-                    isLinktree ? "font-bold text-white hover:bg-white" : "text-accent hover:bg-accent"
+                  className={`inline-flex items-center gap-3 border border-accent/60 px-8 py-4 text-base uppercase tracking-[0.15em] transition-colors hover:text-ink ${
+                    isLinktree ? "font-bold text-fg hover:bg-fg" : "text-accent hover:bg-accent"
                   }`}
                 >
                   <SocialIcon platform={link.platform} className={isLinktree ? "h-5 w-5 stroke-2" : "h-5 w-5"} />

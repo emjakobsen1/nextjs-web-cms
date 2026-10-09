@@ -1,15 +1,41 @@
 @import "tailwindcss";
 
+/*
+ * Theme presets — swapped at runtime via `data-theme` on <html>
+ * (see ThemeProvider/ThemeToggle). Each preset defines the same six
+ * roles; `--line` is always `--fg` at 16% opacity, and `--ink` is
+ * whichever neutral reads best on top of `--accent`/`--fg` fills (the
+ * color used for hover states like `hover:bg-accent hover:text-ink`).
+ */
 :root {
-  /* Experimenting with the k95.it brand blue as the site background in
-     place of white — foreground/surface/line flipped to light-on-blue so
-     text stays readable against it. */
+  /* "Ultramarine" — the original palette: saturated blue, white, a
+     lavender-tinted muted, and a salmon accent. */
   --bg: #1500e1;
   --fg: #ffffff;
   --muted: #b8b0f5;
   --surface: #2311e8;
   --line: rgba(255, 255, 255, 0.16);
   --accent: #e2b4bd;
+  --ink: #000000;
+}
+
+:root[data-theme="papaya"] {
+  /* "Papaya" — warm cream, magenta text, and a vivid yellow surface.
+     Only bg/fg/surface are picked directly; muted/accent/ink are derived
+     from them the same way Ultramarine's muted is ~70% fg blended into
+     bg:
+       muted  = 70% fg + 30% bg   (a dustier, lower-contrast fg)
+       accent = 50% fg + 50% surface (a pop color between the other two)
+       ink    = surface (light enough to read on both fg- and
+                accent-filled hover states)
+  */
+  --bg: #f7eae0;
+  --fg: #c13383;
+  --muted: #d16a9f;
+  --surface: #ffd400;
+  --line: rgba(193, 51, 131, 0.16);
+  --accent: #e08442;
+  --ink: #ffd400;
 }
 
 @theme inline {
@@ -19,6 +45,7 @@
   --color-surface: var(--surface);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-ink: var(--ink);
   --font-display: var(--font-archivo);
   --font-sans: var(--font-archivo);
 }
@@ -36,6 +63,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
+  transition: background-color 400ms ease, color 400ms ease;
 }
 
 /* subtle paper grain for a handmade, less "digital" feel */

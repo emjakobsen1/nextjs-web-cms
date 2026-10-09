@@ -6,8 +6,7 @@ import { urlFor } from "@/sanity/image";
 import type { ProjectDetail as ProjectDetailData } from "@/sanity/queries";
 import { useAdaptiveInks } from "@/hooks/useAdaptiveInks";
 import { linktreeFirst } from "@/lib/socialLinks";
-import Reveal from "./Reveal";
-import AgendaList from "./AgendaList";
+import AgendaSection from "./AgendaSection";
 import SocialIcon, { PLATFORM_LABELS } from "./SocialIcon";
 import FlushLeftLine from "./FlushLeftLine";
 
@@ -55,8 +54,8 @@ export default function ProjectDetail({ project }: { project: ProjectDetailData 
                     href={url}
                     target="_blank"
                     rel="noreferrer"
-                    className={`inline-flex items-center gap-3 border border-accent/60 px-8 py-4 text-base uppercase tracking-[0.15em] transition-colors hover:text-black ${
-                      isLinktree ? "font-bold text-white hover:bg-white" : "text-accent hover:bg-accent"
+                    className={`inline-flex items-center gap-3 border border-accent/60 px-8 py-4 text-base uppercase tracking-[0.15em] transition-colors hover:text-ink ${
+                      isLinktree ? "font-bold text-fg hover:bg-fg" : "text-accent hover:bg-accent"
                     }`}
                   >
                     <SocialIcon platform={platform} className={isLinktree ? "h-5 w-5 stroke-2" : "h-5 w-5"} />
@@ -70,13 +69,8 @@ export default function ProjectDetail({ project }: { project: ProjectDetailData 
       </div>
 
       {project.agenda.length ? (
-        <div className="mt-16 sm:mt-24">
-          <Reveal as="h2" className="px-4 text-sm uppercase tracking-[0.2em] text-muted sm:px-6">
-            Upcoming
-          </Reveal>
-          <div className="mt-4 md:mt-6">
-            <AgendaList agenda={project.agenda} />
-          </div>
+        <div className="mt-16 px-4 sm:mt-24 sm:px-6">
+          <AgendaSection agenda={project.agenda} />
         </div>
       ) : null}
 

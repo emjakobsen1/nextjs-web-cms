@@ -11,22 +11,35 @@ export default function Icon() {
           width: "100%",
           height: "100%",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0A0A0A",
+          background: "#F7EAE0",
         }}
       >
         <span
           style={{
-            color: "#FFFFFF",
-            fontSize: 18,
-            fontWeight: 400,
+            color: "#000000",
+            fontSize: 8,
+            fontWeight: 700,
             fontFamily: "sans-serif",
-            lineHeight: 1,
-            letterSpacing: -1,
+            lineHeight: 1.3,
+            letterSpacing: -0.3,
           }}
         >
-          JL
+          Jesper
+        </span>
+        <span
+          style={{
+            color: "#000000",
+            fontSize: 8,
+            fontWeight: 700,
+            fontFamily: "sans-serif",
+            lineHeight: 1.3,
+            letterSpacing: -0.3,
+          }}
+        >
+          L&oslash;rup
         </span>
       </div>
     ),

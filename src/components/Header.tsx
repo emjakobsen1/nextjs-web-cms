@@ -77,57 +77,67 @@ export default function Header() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-transform ease-in-out ${
-        hidden ? "duration-[400ms] -translate-y-full" : "duration-[200ms] translate-y-0"
-      }`}
-    >
-      <div className="mx-auto flex max-w-[1800px] items-center justify-between px-1 py-4">
-        <Link
-          href="/"
-          ref={setInkRef(LOGO)}
-          onClick={() => {
-            setOpen(false);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          className={`text-lg uppercase tracking-[0.15em] transition-colors duration-300 ${inkClasses[LOGO]}`}
-        >
-          Jesper L&oslash;rup
-        </Link>
+    // No transform on this element itself: a transformed ancestor becomes
+    // the containing block for `position: fixed` descendants (instead of
+    // the viewport), which was clipping the full-screen mobile menu below
+    // down to the header's own (short) height. The slide-hide transform
+    // lives on the inner row below instead, so the overlay's `inset-0`
+    // keeps resolving against the real viewport.
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        className={`transition-transform ease-in-out ${
+          hidden ? "duration-[400ms] -translate-y-full" : "duration-[200ms] translate-y-0"
+        }`}
+      >
+        <div className="mx-auto flex max-w-[1800px] items-center justify-between px-1 py-4">
+          <Link
+            href="/"
+            ref={setInkRef(LOGO)}
+            onClick={() => {
+              setOpen(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className={`text-lg uppercase tracking-[0.15em] transition-colors duration-300 ${
+              open ? "text-accent" : inkClasses[LOGO]
+            }`}
+          >
+            Jesper L&oslash;rup
+          </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map((link, i) => (
-            <a
-              key={link.href}
-              ref={setInkRef(NAV_START + i)}
-              href={link.href}
-              className={`group px-3 py-2.5 text-sm uppercase tracking-[0.12em] transition-colors duration-300 ${inkClasses[NAV_START + i]}`}
-            >
-              <RollText text={link.label} />
-            </a>
-          ))}
-        </nav>
+          <nav className="hidden items-center gap-1 md:flex">
+            {NAV_LINKS.map((link, i) => (
+              <a
+                key={link.href}
+                ref={setInkRef(NAV_START + i)}
+                href={link.href}
+                className={`group px-3 py-2.5 text-sm uppercase tracking-[0.12em] transition-colors duration-300 ${inkClasses[NAV_START + i]}`}
+              >
+                <RollText text={link.label} />
+              </a>
+            ))}
+          </nav>
 
-        <button
-          type="button"
-          ref={setInkRef(HAMBURGER)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={toggleOpen}
-          className={`relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 transition-colors duration-300 md:hidden ${
-            open ? "text-accent" : inkClasses[HAMBURGER]
-          }`}
-        >
-          <span
-            className={`block h-px w-5 bg-current transition-transform ${open ? "translate-y-[3px] rotate-45" : ""}`}
-          />
-          <span
-            className={`block h-px w-5 bg-current transition-opacity ${open ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`block h-px w-5 bg-current transition-transform ${open ? "-translate-y-[3px] -rotate-45" : ""}`}
-          />
-        </button>
+          <button
+            type="button"
+            ref={setInkRef(HAMBURGER)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={toggleOpen}
+            className={`relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 transition-colors duration-300 md:hidden ${
+              open ? "text-accent" : inkClasses[HAMBURGER]
+            }`}
+          >
+            <span
+              className={`block h-px w-5 bg-current transition-transform ${open ? "translate-y-[3px] rotate-45" : ""}`}
+            />
+            <span
+              className={`block h-px w-5 bg-current transition-opacity ${open ? "opacity-0" : ""}`}
+            />
+            <span
+              className={`block h-px w-5 bg-current transition-transform ${open ? "-translate-y-[3px] -rotate-45" : ""}`}
+            />
+          </button>
+        </div>
       </div>
 
       <div
