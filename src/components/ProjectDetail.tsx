@@ -5,10 +5,13 @@ import Link from "next/link";
 import { urlFor } from "@/sanity/image";
 import type { ProjectDetail as ProjectDetailData } from "@/sanity/queries";
 import { useAdaptiveInks } from "@/hooks/useAdaptiveInks";
+import { useFitWidthFontSize } from "@/hooks/useFitWidthFontSize";
 import { linktreeFirst } from "@/lib/socialLinks";
 import AgendaSection from "./AgendaSection";
 import SocialIcon, { PLATFORM_LABELS } from "./SocialIcon";
 import FlushLeftLine from "./FlushLeftLine";
+
+const TITLE_CLASS = "block leading-[0.8] font-light tracking-tight uppercase";
 
 export default function ProjectDetail({ project }: { project: ProjectDetailData }) {
   const imageUrl = project.coverImage
@@ -17,6 +20,11 @@ export default function ProjectDetail({ project }: { project: ProjectDetailData 
   const originHref = `/projects/${project.slug.current}`;
   const socialLinks = linktreeFirst(project.socialLinks ?? []);
   const { setRef: setInkRef, inkClasses } = useAdaptiveInks(1);
+  const title = project.title.toUpperCase();
+  // text-[11vh] alone overflowed the screen width on longer titles
+  // ("Hi-Fi Quartet", "Kosmos Trio") on narrow/tall mobile viewports —
+  // this shrinks it just enough to keep the title on one line.
+  const { fontSize: titleFontSize, measureRef: titleMeasureRef } = useFitWidthFontSize(title);
 
   return (
     <div>
@@ -29,10 +37,14 @@ export default function ProjectDetail({ project }: { project: ProjectDetailData 
         {imageUrl ? (
           <Image src={imageUrl} alt={project.title} fill sizes="100vw" priority className="photo object-cover" />
         ) : null}
+        <span ref={titleMeasureRef} aria-hidden className={`fixed top-0 left-0 whitespace-nowrap opacity-0 ${TITLE_CLASS}`} />
         <FlushLeftLine
-          text={project.title.toUpperCase()}
+          text={title}
+          fontSize={titleFontSize ?? undefined}
           spanRef={setInkRef(0)}
-          className={`pointer-events-none absolute bottom-0 left-0 block text-[11vh] leading-[0.8] font-light tracking-tight uppercase transition-colors duration-300 ${inkClasses[0]}`}
+          className={`pointer-events-none absolute bottom-0 left-0 ${
+            titleFontSize ? "" : "text-[11vh]"
+          } transition-colors duration-300 ${TITLE_CLASS} ${inkClasses[0]}`}
         />
       </div>
 

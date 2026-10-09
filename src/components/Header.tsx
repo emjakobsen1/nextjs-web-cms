@@ -104,7 +104,7 @@ export default function Header() {
             Jesper L&oslash;rup
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link, i) => (
               <a
                 key={link.href}
@@ -123,38 +123,47 @@ export default function Header() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={toggleOpen}
-            className={`relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 transition-colors duration-300 md:hidden ${
+            className={`relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 transition-colors duration-300 lg:hidden ${
               open ? "text-accent" : inkClasses[HAMBURGER]
             }`}
           >
+            {/* Asymmetric "semi X" when open — one long arm, one short one,
+                rather than a plain symmetric X — still unambiguous as a
+                close icon but with a bit more character. */}
             <span
-              className={`block h-px w-5 bg-current transition-transform ${open ? "translate-y-[3px] rotate-45" : ""}`}
+              className={`block h-px bg-current transition-all duration-300 ${open ? "w-6 translate-y-[3px] rotate-45" : "w-5"}`}
             />
             <span
-              className={`block h-px w-5 bg-current transition-opacity ${open ? "opacity-0" : ""}`}
+              className={`block h-px w-5 bg-current transition-opacity duration-300 ${open ? "opacity-0" : ""}`}
             />
             <span
-              className={`block h-px w-5 bg-current transition-transform ${open ? "-translate-y-[3px] -rotate-45" : ""}`}
+              className={`block h-px bg-current transition-all duration-300 ${open ? "w-3 -translate-y-[3px] -rotate-45" : "w-5"}`}
             />
           </button>
         </div>
       </div>
 
       <div
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-bg transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed inset-0 z-40 flex items-center justify-center bg-bg transition-transform duration-300 ease-out lg:hidden ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {NAV_LINKS.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={() => setOpen(false)}
-            className="px-4 py-4 text-2xl uppercase tracking-[0.08em] text-accent"
-          >
-            {link.label}
-          </a>
-        ))}
+        {/* Right-aligned within a centered column, rather than flush to the
+            screen edge or centered character-by-character — reads as a
+            deliberate ragged-right block sitting in the middle of the
+            screen. */}
+        <nav className="flex w-full max-w-xs flex-col items-end gap-2 px-6">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="px-4 py-4 text-right text-2xl uppercase tracking-[0.08em] text-accent"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
       </div>
     </header>
   );

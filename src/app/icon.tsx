@@ -3,6 +3,17 @@ import { ImageResponse } from "next/og";
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
+const LINE_STYLE = {
+  color: "#000000",
+  fontSize: 16,
+  fontWeight: 800,
+  fontFamily: "sans-serif",
+  lineHeight: 1,
+  letterSpacing: -0.5,
+  width: "100%",
+  textAlign: "center" as const,
+};
+
 export default function Icon() {
   return new ImageResponse(
     (
@@ -12,35 +23,13 @@ export default function Icon() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "stretch",
           justifyContent: "center",
           background: "#F7EAE0",
         }}
       >
-        <span
-          style={{
-            color: "#000000",
-            fontSize: 8,
-            fontWeight: 700,
-            fontFamily: "sans-serif",
-            lineHeight: 1.3,
-            letterSpacing: -0.3,
-          }}
-        >
-          Jesper
-        </span>
-        <span
-          style={{
-            color: "#000000",
-            fontSize: 8,
-            fontWeight: 700,
-            fontFamily: "sans-serif",
-            lineHeight: 1.3,
-            letterSpacing: -0.3,
-          }}
-        >
-          L&oslash;rup
-        </span>
+        <span style={LINE_STYLE}>JES</span>
+        <span style={LINE_STYLE}>PER</span>
       </div>
     ),
     { ...size }

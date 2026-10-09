@@ -50,8 +50,13 @@ export default function ThemeToggle() {
   );
 
   return (
+    // Below lg (wherever the header shows its hamburger instead of the full
+    // nav row), this centered pill would otherwise land right on top of the
+    // "Jesper Lørup" logo on narrow screens — bumped onto its own row under
+    // the header instead. At lg and up there's room beside the nav links,
+    // so it goes back to sharing the header's own row.
     <div
-      className={`pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center py-4 transition-transform ease-in-out ${
+      className={`pointer-events-none fixed inset-x-0 top-20 z-50 flex justify-center py-4 transition-transform ease-in-out lg:top-0 ${
         hidden ? "duration-[400ms] -translate-y-full" : "duration-[200ms] translate-y-0"
       }`}
     >

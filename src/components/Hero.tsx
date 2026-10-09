@@ -39,14 +39,11 @@ export default function Hero({ release }: { release: FeaturedRelease | null }) {
           />
         </div>
 
-        {/* Floating bottom-right on larger screens, where there's room
-            beside the title; on narrow screens it would sit on top of the
-            title text instead, so it moves to a plain full-width bar below
-            the section (see the sm:hidden link right after it). */}
-        <Reveal
-          delay={220}
-          className="absolute right-[1.5rem] bottom-[2.5rem] hidden sm:block sm:right-[2.5rem] md:bottom-[3.5rem]"
-        >
+        {/* Floating bottom-right on full desktop, where there's room beside
+            the title; on phone AND tablet it would sit on top of the title
+            text instead, so it moves to a plain full-width bar below the
+            section (see the lg:hidden link right after it). */}
+        <Reveal delay={220} className="absolute right-[2.5rem] bottom-[3.5rem] hidden lg:block">
           <Link
             href={`/releases/${release.slug.current}`}
             className="inline-flex flex-col items-end border border-accent/60 px-[4.5rem] py-[2rem] text-[2rem] leading-[0.95] uppercase tracking-[0.1em] text-accent transition-colors hover:bg-accent hover:text-ink"
@@ -59,7 +56,7 @@ export default function Hero({ release }: { release: FeaturedRelease | null }) {
 
       <Link
         href={`/releases/${release.slug.current}`}
-        className="flex w-full items-center justify-center border-b border-accent/30 bg-ink px-6 py-5 text-lg uppercase tracking-[0.2em] text-accent transition-colors hover:bg-accent hover:text-ink sm:hidden"
+        className="flex w-full items-center justify-center border-b border-accent/30 bg-ink px-6 py-5 text-lg uppercase tracking-[0.2em] text-accent transition-colors hover:bg-accent hover:text-ink lg:hidden"
       >
         Listen Now
       </Link>

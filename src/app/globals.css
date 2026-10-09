@@ -21,13 +21,15 @@
 
 :root[data-theme="papaya"] {
   /* "Papaya" — warm cream, magenta text, and a vivid yellow surface.
-     Only bg/fg/surface are picked directly; muted/accent/ink are derived
+     Only bg/fg/surface are picked directly; muted/accent are derived
      from them the same way Ultramarine's muted is ~70% fg blended into
      bg:
        muted  = 70% fg + 30% bg   (a dustier, lower-contrast fg)
        accent = 50% fg + 50% surface (a pop color between the other two)
-       ink    = surface (light enough to read on both fg- and
-                accent-filled hover states)
+     ink is set to black by request, same as Ultramarine — note this
+     reads worse on the magenta fg-fill hover state than a light ink
+     would, since black-on-magenta is lower contrast than black-on-the
+     brighter accent/surface fills.
   */
   --bg: #f7eae0;
   --fg: #c13383;
@@ -35,7 +37,7 @@
   --surface: #ffd400;
   --line: rgba(193, 51, 131, 0.16);
   --accent: #e08442;
-  --ink: #ffd400;
+  --ink: #000000;
 }
 
 @theme inline {
