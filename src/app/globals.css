@@ -8,6 +8,32 @@
  * color used for hover states like `hover:bg-accent hover:text-ink`).
  */
 :root {
+  /* "Eclipse" — the default theme (bare :root, no data-theme attribute —
+     this has to stay in sync with DEFAULT_THEME in lib/theme.ts, since the
+     anti-flash inline script in layout.tsx only ever sets data-theme for
+     *non*-default picks, relying on this block already matching whatever
+     the default is for everyone else). Same two-input pattern as the
+     others: a near-black indigo bg (#03001c) and a vivid yellow accent
+     (#ffd51e).
+       fg/ink = white/black — the two neutrals split across both roles
+                (white for primary text, black for block bgs/hover-invert
+                fills), same as Ultramarine, since a bg this dark calls for
+                a light fg rather than Forest's "both land on black"
+       muted   = 70% fg + 30% bg — the same blend used everywhere else,
+                 a soft lavender-grey for secondary text
+       surface = bg blended 10% toward white — the barely-there panel tint,
+                 same magnitude of nudge as Ultramarine's own bg->surface
+  */
+  --bg: #03001c;
+  --fg: #ffffff;
+  --muted: #b3b3bb;
+  --surface: #1c1a33;
+  --line: rgba(255, 255, 255, 0.16);
+  --accent: #ffd51e;
+  --ink: #000000;
+}
+
+:root[data-theme="ultramarine"] {
   /* "Ultramarine" — the original palette: saturated blue, white, a
      lavender-tinted muted, and a salmon accent. */
   --bg: #1500e1;
@@ -39,28 +65,6 @@
   --surface: #dbded5;
   --line: rgba(0, 0, 0, 0.16);
   --accent: #0e8388;
-  --ink: #000000;
-}
-
-:root[data-theme="eclipse"] {
-  /* "Eclipse" — same two-input pattern again: a near-black indigo bg
-     (#03001c) and a vivid yellow accent (#ffd51e). bg is dark enough that
-     this mirrors Ultramarine's structure rather than Forest's:
-       fg/ink = white/black — the two neutrals split across both roles
-                (white for primary text, black for block bgs/hover-invert
-                fills), same as Ultramarine, since a bg this dark calls for
-                a light fg rather than Forest's "both land on black"
-       muted   = 70% fg + 30% bg — the same blend used everywhere else,
-                 a soft lavender-grey for secondary text
-       surface = bg blended 10% toward white — the barely-there panel tint,
-                 same magnitude of nudge as Ultramarine's own bg->surface
-  */
-  --bg: #03001c;
-  --fg: #ffffff;
-  --muted: #b3b3bb;
-  --surface: #1c1a33;
-  --line: rgba(255, 255, 255, 0.16);
-  --accent: #ffd51e;
   --ink: #000000;
 }
 

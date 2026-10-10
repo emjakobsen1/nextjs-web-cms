@@ -1,7 +1,7 @@
 export type ThemeId = "ultramarine" | "forest" | "eclipse";
 
 export const THEME_STORAGE_KEY = "jlorup-theme";
-export const DEFAULT_THEME: ThemeId = "ultramarine";
+export const DEFAULT_THEME: ThemeId = "eclipse";
 
 export const THEMES: { id: ThemeId; label: string; swatch: string }[] = [
   { id: "ultramarine", label: "Ultramarine", swatch: "#1500e1" },
