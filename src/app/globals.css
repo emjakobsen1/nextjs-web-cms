@@ -19,24 +19,48 @@
   --ink: #000000;
 }
 
-:root[data-theme="papaya"] {
-  /* "Papaya" — warm cream, magenta text, and a vivid yellow surface.
-     Only bg/fg/surface are picked directly; muted/accent are derived
-     from them the same way Ultramarine's muted is ~70% fg blended into
-     bg:
-       muted  = 70% fg + 30% bg   (a dustier, lower-contrast fg)
-       accent = 50% fg + 50% surface (a pop color between the other two)
-     ink is set to black by request, same as Ultramarine — note this
-     reads worse on the magenta fg-fill hover state than a light ink
-     would, since black-on-magenta is lower contrast than black-on-the
-     brighter accent/surface fills.
+:root[data-theme="forest"] {
+  /* "Forest" — only two picks: the cream bg (unchanged from before) and a
+     teal accent (#0e8388). Everything else is derived, same two-input
+     pattern as Ultramarine's blue+salmon:
+       fg/ink = black — the higher-contrast neutral against a light bg,
+                used for both roles since there's no second hue to split
+                them with (matches both siblings, which fix ink to black
+                regardless of bg lightness)
+       surface = bg blended 12% toward accent — a barely-there panel tint
+                 that nods at the teal without competing with it
+       muted   = bg blended 45% toward black — a mid taupe for secondary
+                 text, legible but clearly behind fg
+     --line stays fg (black) at 16%, same convention as the others.
   */
   --bg: #f7eae0;
-  --fg: #c13383;
-  --muted: #d16a9f;
-  --surface: #ffd400;
-  --line: rgba(193, 51, 131, 0.16);
-  --accent: #e08442;
+  --fg: #000000;
+  --muted: #88817b;
+  --surface: #dbded5;
+  --line: rgba(0, 0, 0, 0.16);
+  --accent: #0e8388;
+  --ink: #000000;
+}
+
+:root[data-theme="eclipse"] {
+  /* "Eclipse" — same two-input pattern again: a near-black indigo bg
+     (#03001c) and a vivid yellow accent (#ffd51e). bg is dark enough that
+     this mirrors Ultramarine's structure rather than Forest's:
+       fg/ink = white/black — the two neutrals split across both roles
+                (white for primary text, black for block bgs/hover-invert
+                fills), same as Ultramarine, since a bg this dark calls for
+                a light fg rather than Forest's "both land on black"
+       muted   = 70% fg + 30% bg — the same blend used everywhere else,
+                 a soft lavender-grey for secondary text
+       surface = bg blended 10% toward white — the barely-there panel tint,
+                 same magnitude of nudge as Ultramarine's own bg->surface
+  */
+  --bg: #03001c;
+  --fg: #ffffff;
+  --muted: #b3b3bb;
+  --surface: #1c1a33;
+  --line: rgba(255, 255, 255, 0.16);
+  --accent: #ffd51e;
   --ink: #000000;
 }
 

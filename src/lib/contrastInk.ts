@@ -7,6 +7,13 @@
 export type InkOption = {
   className: string;
   luminance: number;
+  // The accent is the site's signature color — it should win against the
+  // neutral bg/cream option whenever it's reasonably legible, not only when
+  // it happens to be the single highest-contrast pick. Plain "maximize
+  // contrast" skews hard towards a light neutral bg (close to white) being
+  // picked over the accent on almost every dark-to-midtone photo, even
+  // where the accent would still read perfectly fine — see pickBestInk.
+  preferred?: boolean;
 };
 
 // The nav is only ever allowed to be the site's background color or its
@@ -16,8 +23,15 @@ export type InkOption = {
 // during the design pass, with no code change needed on this end.
 const FALLBACK_INK_OPTIONS: InkOption[] = [
   { className: "text-bg", luminance: relativeLuminance(0x36, 0x31, 0x99) },
-  { className: "text-accent", luminance: relativeLuminance(0xe2, 0xb4, 0xbd) },
+  { className: "text-accent", luminance: relativeLuminance(0xe2, 0xb4, 0xbd), preferred: true },
 ];
+
+// How much contrast the accent needs against the sampled patch before it's
+// considered "legible enough" to use despite not being the mathematically
+// highest-contrast option. Deliberately low (most text-contrast guidelines
+// start around 3:1 for large text) — this is a floor against the accent
+// actually disappearing into the background, not a legibility target.
+const MIN_PREFERRED_CONTRAST = 1.5;
 
 let inkProbeEl: HTMLSpanElement | null = null;
 
@@ -41,7 +55,7 @@ export function getInkOptions(): InkOption[] {
   const accentLuminance = resolveCssVarLuminance("--accent");
   const options: InkOption[] = [];
   if (bgLuminance !== null) options.push({ className: "text-bg", luminance: bgLuminance });
-  if (accentLuminance !== null) options.push({ className: "text-accent", luminance: accentLuminance });
+  if (accentLuminance !== null) options.push({ className: "text-accent", luminance: accentLuminance, preferred: true });
   return options.length ? options : FALLBACK_INK_OPTIONS;
 }
 
@@ -60,6 +74,11 @@ function contrastRatio(l1: number, l2: number): number {
 }
 
 export function pickBestInk(backgroundLuminance: number, options: InkOption[]): string {
+  const preferred = options.find((o) => o.preferred);
+  if (preferred && contrastRatio(preferred.luminance, backgroundLuminance) >= MIN_PREFERRED_CONTRAST) {
+    return preferred.className;
+  }
+
   let best = options[0];
   let bestRatio = -Infinity;
   for (const option of options) {
@@ -103,28 +122,57 @@ function intersectRect(a: Rect, b: Rect): Rect | null {
 let sampleCanvas: HTMLCanvasElement | null = null;
 const SAMPLE_GRID = 6;
 
-// Reads the *average* luminance of the patch of `img` (an <img> using
-// object-fit: contain) that sits directly behind `targetRect`, accounting
-// for the image's letterboxing. A single pixel probe (or a handful of them)
-// can land on a dark speck of grain or a light fleck of paper texture and
-// swing wildly from one nav item to its neighbour even though both sit on
-// the same patch of photo — averaging over the whole patch instead of
-// poking at a few points is what makes neighbouring elements agree.
-// Returns null when `targetRect` falls entirely in the letterboxed margin
-// (no image pixels there) or the canvas read fails (e.g. a cross-origin
-// image without CORS headers).
+// Reads the *average* luminance of the patch of `img` that sits directly
+// behind `targetRect`, accounting for how object-fit actually maps the
+// natural image onto the element's box. A single pixel probe (or a handful
+// of them) can land on a dark speck of grain or a light fleck of paper
+// texture and swing wildly from one nav item to its neighbour even though
+// both sit on the same patch of photo — averaging over the whole patch
+// instead of poking at a few points is what makes neighbouring elements
+// agree. Returns null when `targetRect` falls entirely outside the visible
+// image (e.g. a contain letterbox margin) or the canvas read fails (e.g. a
+// cross-origin image without CORS headers).
+//
+// `object-fit: contain` letterboxes: the element's own box (`rect`) is
+// bigger than the image actually drawn inside it, so `visible` shrinks down
+// to just the drawn area, and that area maps 1:1 onto the *whole* natural
+// image (nothing is cropped).
+//
+// `object-fit: cover` is the opposite: the box is always fully painted (no
+// letterbox margins, so `visible` is just `rect`), but only a cropped
+// sub-rect of the natural image — picked by `scale = max(w/naturalW,
+// h/naturalH)` and centered per object-position — actually lands inside it.
+// Every target used with this sampler (`fill`-mode Next/Image) has an <img>
+// box equal to its container regardless of object-fit, which is what makes
+// this distinction necessary rather than cosmetic.
 function sampleImageRegionLuminance(img: HTMLImageElement, targetRect: Rect): number | null {
   if (!img.complete || !img.naturalWidth || !img.naturalHeight) return null;
 
   const rect = img.getBoundingClientRect();
   if (rect.width === 0 || rect.height === 0) return null;
 
+  const { naturalWidth, naturalHeight } = img;
   const containerAspect = rect.width / rect.height;
-  const imageAspect = img.naturalWidth / img.naturalHeight;
+  const imageAspect = naturalWidth / naturalHeight;
   const [posX, posY] = parseObjectPosition(getComputedStyle(img).objectPosition);
+  const isCover = getComputedStyle(img).objectFit === "cover";
 
   let visible: Rect;
-  if (imageAspect > containerAspect) {
+  // The natural-image-space rect (origin + size) that `visible` maps onto —
+  // the whole image for contain, a cropped sub-rect for cover.
+  let srcLeft = 0;
+  let srcTop = 0;
+  let srcWidth = naturalWidth;
+  let srcHeight = naturalHeight;
+
+  if (isCover) {
+    visible = rect;
+    const scale = Math.max(rect.width / naturalWidth, rect.height / naturalHeight);
+    srcWidth = rect.width / scale;
+    srcHeight = rect.height / scale;
+    srcLeft = (naturalWidth - srcWidth) * posX;
+    srcTop = (naturalHeight - srcHeight) * posY;
+  } else if (imageAspect > containerAspect) {
     const height = rect.width / imageAspect;
     visible = { left: rect.left, top: rect.top + (rect.height - height) * posY, width: rect.width, height };
   } else {
@@ -135,10 +183,10 @@ function sampleImageRegionLuminance(img: HTMLImageElement, targetRect: Rect): nu
   const patch = intersectRect(targetRect, visible);
   if (!patch) return null;
 
-  const sx = ((patch.left - visible.left) / visible.width) * img.naturalWidth;
-  const sy = ((patch.top - visible.top) / visible.height) * img.naturalHeight;
-  const sw = (patch.width / visible.width) * img.naturalWidth;
-  const sh = (patch.height / visible.height) * img.naturalHeight;
+  const sx = srcLeft + ((patch.left - visible.left) / visible.width) * srcWidth;
+  const sy = srcTop + ((patch.top - visible.top) / visible.height) * srcHeight;
+  const sw = (patch.width / visible.width) * srcWidth;
+  const sh = (patch.height / visible.height) * srcHeight;
   if (sw <= 0 || sh <= 0) return null;
 
   try {

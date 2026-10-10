@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo } from "next/font/google";
 import ThemeProvider from "@/components/ThemeProvider";
-import ThemeToggle from "@/components/ThemeToggle";
 import { DEFAULT_THEME, THEME_STORAGE_KEY, THEMES } from "@/lib/theme";
 import "./globals.css";
 
@@ -55,10 +54,7 @@ export default function RootLayout({
             )}.indexOf(t)!==-1)document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`,
           }}
         />
-        <ThemeProvider>
-          {children}
-          <ThemeToggle />
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useAdaptiveInks } from "@/hooks/useAdaptiveInks";
 import RollText from "./RollText";
+import ThemeToggle from "./ThemeToggle";
 
 // Absolute (not bare "#section") so these still work when the header is
 // rendered on a project/release page: they navigate home and land on the
@@ -84,8 +85,17 @@ export default function Header() {
     // lives on the inner row below instead, so the overlay's `inset-0`
     // keeps resolving against the real viewport.
     <header className="fixed inset-x-0 top-0 z-50">
+      {/* `relative z-50` here (not just on the hamburger button below) is
+          load-bearing: the translateY slide-hide below gives this row a
+          non-none transform, which makes it establish its own stacking
+          context — without an explicit z-index on the row itself, that
+          context ranks as z-index:auto at the <header> level, landing
+          *below* the overlay's explicit z-40 regardless of the button's own
+          z-50 inside it (z-index only ever competes within the same
+          stacking context). That's what was swallowing the logo and the
+          open/close button behind the mobile menu once it was open. */}
       <div
-        className={`transition-transform ease-in-out ${
+        className={`relative z-50 transition-transform ease-in-out ${
           hidden ? "duration-[400ms] -translate-y-full" : "duration-[200ms] translate-y-0"
         }`}
       >
@@ -127,17 +137,18 @@ export default function Header() {
               open ? "text-accent" : inkClasses[HAMBURGER]
             }`}
           >
-            {/* Asymmetric "semi X" when open — one long arm, one short one,
-                rather than a plain symmetric X — still unambiguous as a
-                close icon but with a bit more character. */}
+            {/* Top and bottom bars rotate into a centered X (translate-y
+                matches the gap-1.5 + h-px spacing between the three bars,
+                so the two crossing strokes actually meet at a point rather
+                than passing each other offset); the middle bar fades out. */}
             <span
-              className={`block h-px bg-current transition-all duration-300 ${open ? "w-6 translate-y-[3px] rotate-45" : "w-5"}`}
+              className={`block h-px bg-current transition-all duration-300 ${open ? "w-6 translate-y-[7px] rotate-45" : "w-5"}`}
             />
             <span
               className={`block h-px w-5 bg-current transition-opacity duration-300 ${open ? "opacity-0" : ""}`}
             />
             <span
-              className={`block h-px bg-current transition-all duration-300 ${open ? "w-3 -translate-y-[3px] -rotate-45" : "w-5"}`}
+              className={`block h-px bg-current transition-all duration-300 ${open ? "w-6 -translate-y-[7px] -rotate-45" : "w-5"}`}
             />
           </button>
         </div>
@@ -148,6 +159,12 @@ export default function Header() {
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
+        {/* top-20: clears the header row above (logo stays visible there
+            even with the menu open), so this doesn't collide with it. */}
+        <div className="absolute top-20 left-5">
+          <ThemeToggle variant="inline" />
+        </div>
+
         {/* Right-aligned within a centered column, rather than flush to the
             screen edge or centered character-by-character — reads as a
             deliberate ragged-right block sitting in the middle of the
@@ -165,6 +182,8 @@ export default function Header() {
           ))}
         </nav>
       </div>
+
+      <ThemeToggle />
     </header>
   );
 }
